@@ -21,7 +21,7 @@
         </InitgPty>
     </GrpHdr>
     {{#each trandetails}}    
-    {{#ifCompare PayTypeNO "==" "Domestic"}}	
+    {{#ifCompare PayType "==" "Domestic"}}	
     <PmtInf>
         <PmtInfId>{{PayRef}}</PmtInfId>
         <PmtMtd>TRF</PmtMtd>
@@ -106,7 +106,7 @@
         </CdtTrfTxInf>
     </PmtInf>
     {{/ifCompare}}
-    {{#ifCompare PayTypeNO "==" "International IBAN"}}
+    {{#ifCompare PayType "==" "International IBAN"}}
     {{#ifCompare BillCurrency "==" "EUR"}}
     <PmtInf>
         <PmtInfId>{{PayRef}}</PmtInfId>
@@ -207,7 +207,7 @@
     </PmtInf>
     {{/ifCompare}}
     {{/ifCompare}}
-    {{#ifCompare PayTypeNO "==" "International IBAN"}}
+    {{#ifCompare PayType "==" "International IBAN"}}
     {{#ifCompare BillCurrency "!=" "EUR"}}
     <PmtInf>
         <PmtInfId>{{PayRef}}</PmtInfId> 
@@ -306,7 +306,7 @@
     </PmtInf>
     {{/ifCompare}}
     {{/ifCompare}}
-    {{#ifCompare PayTypeNO "==" "International NON IBAN"}}
+    {{#ifCompare PayType "==" "International NON IBAN"}}
     <PmtInf>
         <PmtInfId>{{PayRef}}</PmtInfId> 
         <PmtMtd>TRF</PmtMtd>

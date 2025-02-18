@@ -74,6 +74,7 @@
 			<EmpZip>custrecord_rmpay_bills_pp_empzip</EmpZip>
 			<EmpCity>custrecord_rmpay_bills_pp_empcity</EmpCity>
 			<EmpNm>custrecord_rmpay_bills_pp_empname</EmpNm>
+			<POBO>custrecord_rmpay_bills_pp_pobo</POBO>
 		</trandetails>
 		<vendorbillcreditdetails>
 			<BillCreditEntity>entity</BillCreditEntity>

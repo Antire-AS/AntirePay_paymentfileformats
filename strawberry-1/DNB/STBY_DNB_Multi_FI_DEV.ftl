@@ -124,22 +124,74 @@
                     <IBAN>{{CdtrIBAN}}</IBAN>
                 </Id>
             </CdtrAcct>
-            {{#ifCompare CdtrReportingCdSE "!=" ""}}
-            <RgltryRptg>
-                <Dtls>
-                <Cd>101</Cd>
-                <Inf>Imp/exp of goods</Inf>
-                </Dtls>
-            </RgltryRptg>
-            {{/ifCompare}}
-            <RmtInf>                
+            <RmtInf>
+                {{#ifCompare KID "!=" ""}}
+                <Strd>
+                    <RfrdDocInf>
+                        <Tp>
+                            <CdOrPrtry>
+                                <Cd>CINV</Cd>
+                            </CdOrPrtry>
+                        </Tp>
+                        <RltdDt>{{dateFormat ReqdExctnDt "YYYY-MM-DD"}}</RltdDt>
+                    </RfrdDocInf>
+                    <RfrdDocAmt>
+                        <RmtdAmt Ccy="{{BillCurrency}}">{{BillOrgAmount}}</RmtdAmt>
+                    </RfrdDocAmt>
+                    <CdtrRefInf>
+                    <Tp>
+                        <CdOrPrtry>
+                            <Cd>SCOR</Cd>
+                        </CdOrPrtry>
+                    </Tp>
+                    <Ref>{{KID}}</Ref>
+                    </CdtrRefInf>
+                </Strd>
                 {{#ifCompare billcreditdetails "!=" ""}}
-                {{#each billcreditdetails}} 
-                <Ustrd>{{BillRef}} - Credit: {{BillCreditRef}}</Ustrd>
+                    {{#each billcreditdetails}}
+                        {{#ifCompare BillCreditKID "!=" ""}}
+                        <Strd>
+                            <RfrdDocInf>
+                                <Tp>
+                                    <CdOrPrtry>
+                                        <Cd>CREN</Cd>
+                                    </CdOrPrtry>
+                                </Tp>
+                                <Nb>{{BillCrRef}}</Nb>
+                            </RfrdDocInf>
+                            <RfrdDocAmt>
+                                <CdtNoteAmt Ccy="{{BillCreditCurrency}}">{{BillCreditFxAmount}}</CdtNoteAmt>
+                            </RfrdDocAmt>
+                            <CdtrRefInf>
+                                <Tp>
+                                    <CdOrPrtry>
+                                        <Cd>SCOR</Cd>
+                                    </CdOrPrtry>
+                                </Tp>
+                                <Ref>{{BillCreditKID}}</Ref>
+                            </CdtrRefInf>
+                        </Strd>
+                        {{/ifCompare}}
+                        {{#ifCompare BillCreditKID "==" ""}}
+                        <Strd>
+                            <RfrdDocInf>
+                                <Tp>
+                                    <CdOrPrtry>
+                                        <Cd>CREN</Cd>
+                                    </CdOrPrtry>
+                                </Tp>
+                                <Nb>{{BillCrRef}}</Nb>
+                            </RfrdDocInf>
+                            <RfrdDocAmt>
+                                <CdtNoteAmt Ccy="{{BillCreditCurrency}}">{{BillCreditFxAmount}}</CdtNoteAmt>
+                            </RfrdDocAmt>
+                        </Strd>
+                        {{/ifCompare}}
+                    {{/each}}
+                {{/ifCompare}}
                 {{else}}
                 <Ustrd>{{Ref}}</Ustrd>
-                {{/each}}
-                {{/ifCompare}}                    
+                {{/ifCompare}}
             </RmtInf>
         </CdtTrfTxInf>
     </PmtInf>
@@ -252,54 +304,12 @@
                 <Cd>SUPP</Cd>
             </Purp>
             <RmtInf>
-                {{#ifCompare KID "!=" ""}}
-                <Strd>
-                    <RfrdDocInf>
-                        <Tp>
-                            <CdOrPrtry>
-                                <Cd>CINV</Cd>
-                            </CdOrPrtry>
-                        </Tp>
-                        <RltdDt>{{dateFormat ReqdExctnDt "YYYY-MM-DD"}}</RltdDt>
-                    </RfrdDocInf>
-                    <RfrdDocAmt>
-                        <RmtdAmt Ccy="{{BillCurrency}}">{{BillOrgAmount}}</RmtdAmt>
-                    </RfrdDocAmt>
-                    <CdtrRefInf>
-                    <Tp>
-                        <CdOrPrtry>
-                            <Cd>SCOR</Cd>
-                        </CdOrPrtry>
-                    </Tp>
-                    <Ref>{{KID}}</Ref>
-                    </CdtrRefInf>
-                </Strd>
-                    {{#ifCompare billcreditdetails "!=" ""}}
-                    {{#each billcreditdetails}} 
-                    <Strd>
-                        <RfrdDocInf>
-                            <Tp>
-                                <CdOrPrtry>
-                                    <Cd>CREN</Cd>
-                                </CdOrPrtry>
-                            </Tp>
-                            <Nb>{{Ref}}</Nb>
-                        </RfrdDocInf>
-                        <RfrdDocAmt>
-                            <CdtNoteAmt Ccy="{{BillCreditCurrency}}">{{BillCreditFxAmount}}</CdtNoteAmt>
-                        </RfrdDocAmt>
-                    </Strd>
-                    {{/each}}
-                    {{/ifCompare}}
-                {{/ifCompare}}
-                {{#ifCompare KID "==" ""}}
                 {{#ifCompare billcreditdetails "!=" ""}}
                 {{#each billcreditdetails}} 
-                <Ustrd>{{BillRef}} - Credit: {{BillCreditRef}}</Ustrd>
-                {{else}}
-                <Ustrd>{{Ref}}</Ustrd>
+                <Ustrd>{{Ref}} - Credit: {{BillCrRef}}</Ustrd>
                 {{/each}}
-                {{/ifCompare}}
+                <Ustrd>{{Ref}}</Ustrd>
+                {{else}}
                 {{/ifCompare}}
             </RmtInf>
         </CdtTrfTxInf>
@@ -399,10 +409,10 @@
             <RmtInf>
                 {{#ifCompare billcreditdetails "!=" ""}}
                 {{#each billcreditdetails}} 
-                <Ustrd>{{trandetails.Ref}} - Credit: {{BillCreditRef}}</Ustrd>
+                <Ustrd>{{Ref}} - Credit: {{BillCrRef}}</Ustrd>
                 {{/each}}
-                {{else}}
                 <Ustrd>{{Ref}}</Ustrd>
+                {{else}}
                 {{/ifCompare}}
             </RmtInf>
         </CdtTrfTxInf>
@@ -517,7 +527,7 @@
             <RmtInf>
                 {{#ifCompare billcreditdetails "!=" ""}}
                 {{#each billcreditdetails}} 
-                <Ustrd>{{trandetails.Ref}} - Credit: {{BillCreditRef}}</Ustrd>
+                <Ustrd>{{trandetails.Ref}} - Credit: {{BillCrRef}}</Ustrd>
                 {{/each}}
                 {{else}}
                 <Ustrd>{{Ref}}</Ustrd>
@@ -596,10 +606,10 @@
             <RmtInf>
                 {{#ifCompare billcreditdetails "!=" ""}}
                 {{#each billcreditdetails}} 
-                <Ustrd>{{trandetails.Ref}} - Credit: {{BillCreditRef}}</Ustrd>
+                <Ustrd>{{Ref}} - Credit: {{BillCrRef}}</Ustrd>
                 {{/each}}
-                {{else}}
                 <Ustrd>{{Ref}}</Ustrd>
+                {{else}}
                 {{/ifCompare}}
             </RmtInf>
         </CdtTrfTxInf>

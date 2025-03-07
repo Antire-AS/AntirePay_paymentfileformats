@@ -377,23 +377,13 @@
                 </Id>
             </CdtrAcct>
             <RmtInf>
-            {{#ifCompare getCountryCode CdtrCtry "==" "CN"}}
-                {{#ifCompare billcreditdetails "!=" ""}}
-                {{#each billcreditdetails}} 
-                <Ustrd>/CSTRDR/ {{Ref}} - Credit: {{BillCrRef}}</Ustrd>
-                {{/each}}
-                {{else}}
-                <Ustrd>/CSTRDR/ {{Ref}}</Ustrd>
-                {{/ifCompare}}
-            {{else}}
                 {{#ifCompare billcreditdetails "!=" ""}}
                 {{#each billcreditdetails}} 
                 <Ustrd>{{Ref}} - Credit: {{BillCrRef}}</Ustrd>
                 {{/each}}
-                {{else}}
                 <Ustrd>{{Ref}}</Ustrd>
+                {{else}}
                 {{/ifCompare}}
-            {{/ifCompare}}
             </RmtInf>
         </CdtTrfTxInf>
     </PmtInf>

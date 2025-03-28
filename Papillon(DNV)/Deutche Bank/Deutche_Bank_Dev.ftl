@@ -327,13 +327,12 @@
             <Amt>
                 <InstdAmt Ccy="{{BillCurrency}}">{{BillAmount}}</InstdAmt>
             </Amt>
-            {{#ifCompare BillCurrency "==" "USD"}}
 			<CdtrAgt>
 				<FinInstnId>
 					<BIC>{{CdtrBIC}}</BIC>
 				</FinInstnId>
 			</CdtrAgt>
-			{{else}}
+            {{#ifCompare CdtrCtry "!=" "Singapore"}}
 			<CdtrAgt>
 				<FinInstnId>
 				    <ClrSysMmbId>
@@ -377,23 +376,24 @@
                 </Id>
             </CdtrAcct>
             <RmtInf>
-            {{#ifCompare getCountryCode CdtrCtry "==" "CN"}}
-                {{#ifCompare billcreditdetails "!=" ""}}
-                {{#each billcreditdetails}} 
-                <Ustrd>/CSTRDR/ {{Ref}} - Credit: {{BillCrRef}}</Ustrd>
-                {{/each}}
-                {{else}}
-                <Ustrd>/CSTRDR/ {{Ref}}</Ustrd>
+                {{#ifCompare CdtrCtry "==" "China"}}
+                    {{#ifCompare billcreditdetails "!=" ""}}
+                    {{#each billcreditdetails}} 
+                    <Ustrd>/CSTRDR/ {{Ref}} - Credit: {{BillCrRef}}</Ustrd>
+                    {{/each}}
+                    <Ustrd>/CSTRDR/ {{Ref}}</Ustrd>
+                    {{else}}
+                    {{/ifCompare}}
                 {{/ifCompare}}
-            {{else}}
-                {{#ifCompare billcreditdetails "!=" ""}}
-                {{#each billcreditdetails}} 
-                <Ustrd>{{Ref}} - Credit: {{BillCrRef}}</Ustrd>
-                {{/each}}
-                {{else}}
-                <Ustrd>{{Ref}}</Ustrd>
+                {{#ifCompare CdtrCtry "!=" "China"}}
+                    {{#ifCompare billcreditdetails "!=" ""}}
+                    {{#each billcreditdetails}} 
+                    <Ustrd>{{Ref}} - Credit: {{BillCrRef}}</Ustrd>
+                    {{/each}}
+                    <Ustrd>{{Ref}}</Ustrd>
+                    {{else}}
+                    {{/ifCompare}}
                 {{/ifCompare}}
-            {{/ifCompare}}
             </RmtInf>
         </CdtTrfTxInf>
     </PmtInf>

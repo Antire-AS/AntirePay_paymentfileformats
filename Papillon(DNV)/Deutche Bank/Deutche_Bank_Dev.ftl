@@ -327,14 +327,17 @@
             <Amt>
                 <InstdAmt Ccy="{{BillCurrency}}">{{BillAmount}}</InstdAmt>
             </Amt>
+            {{#ifCompare CdtrBankCode "==" ""}}
 			<CdtrAgt>
 				<FinInstnId>
 					<BIC>{{CdtrBIC}}</BIC>
 				</FinInstnId>
 			</CdtrAgt>
-            {{#ifCompare CdtrCtry "!=" "Singapore"}}
+            {{/ifCompare}}
+            {{#ifCompare CdtrBankCode "!=" ""}}
 			<CdtrAgt>
 				<FinInstnId>
+                    <BIC>{{CdtrBIC}}</BIC>
 				    <ClrSysMmbId>
 				        <ClrSysId>
 				            <Cd>{{CdtrClearing}}</Cd>
@@ -369,9 +372,6 @@
                 <Id>
                     <Othr>
                     <Id>{{CdtrAccount}}</Id>
-                    <SchmeNm>
-                        <Cd>BBAN</Cd>
-                    </SchmeNm>
                     </Othr>
                 </Id>
             </CdtrAcct>

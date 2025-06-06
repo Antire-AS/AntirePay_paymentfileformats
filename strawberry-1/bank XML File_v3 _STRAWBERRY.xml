@@ -86,7 +86,7 @@
 			<BillCreditRef>tranid</BillCreditRef>
 			<BillRef>tranid</BillRef>
 			<AppliedTo>appliedtotransaction</AppliedTo>
-			<!-- <BillCreditKID>custbody_billreferencenum</BillCreditKID>-->   <!--STRAWBERRY-->
+			<BillCreditKID>custbody_billreferencenum</BillCreditKID>
 		</vendorbillcreditdetails>
     </proposal>
  </root>

@@ -368,7 +368,7 @@
     <PmtInf>
         <PmtInfId>{{PayRef}}</PmtInfId>
         <PmtMtd>TRF</PmtMtd>
-        <BtchBookg>true</BtchBookg>
+        <BtchBookg>false</BtchBookg>
         <NbOfTxs>1</NbOfTxs>
         <CtrlSum>{{BillAmount}}</CtrlSum>
         <PmtTpInf>
@@ -476,7 +476,7 @@
     <PmtInf>
         <PmtInfId>{{PayRef}}</PmtInfId> 
         <PmtMtd>TRF</PmtMtd>
-        <BtchBookg>true</BtchBookg>
+        <BtchBookg>false</BtchBookg>
         <CtrlSum>{{BillAmount}}</CtrlSum>
         {{#ifCompare (dateFormat ReqdExctnDt "YYYYMMDD") "<" (dateFormat "" "YYYYMMDD")}}
         <ReqdExctnDt>{{dateFormat "" "YYYY-MM-DD"  }}</ReqdExctnDt>
@@ -572,7 +572,7 @@
     <PmtInf>
         <PmtInfId>{{PayRef}}</PmtInfId> 
         <PmtMtd>TRF</PmtMtd>
-        <BtchBookg>true</BtchBookg>
+        <BtchBookg>false</BtchBookg>
         <CtrlSum>{{BillAmount}}</CtrlSum>
         {{#ifCompare (dateFormat ReqdExctnDt "YYYYMMDD") "<" (dateFormat "" "YYYYMMDD")}}
         <ReqdExctnDt>{{dateFormat "" "YYYY-MM-DD"  }}</ReqdExctnDt>

@@ -27,9 +27,9 @@
         </InitgPty>
     </GrpHdr>
     {{#each trandetails}}    
-    {{#ifCompare PayTypeNO "==" "Domestic"}}
+    {{#ifCompare PayTypeSE "==" "Domestic"}}
     <PmtInf>
-        <PmtInfId>{{PayRef}}</PmtInfId> 
+        <PmtInfId>{{PayRef}}</PmtInfId>
         <PmtMtd>TRF</PmtMtd>
         <BtchBookg>false</BtchBookg>
         <NbOfTxs>1</NbOfTxs>
@@ -51,14 +51,16 @@
             </PstlAdr>
         </Dbtr>
         <DbtrAcct>
-            <Id>  
+            <Id>
                 <IBAN>{{TrDbtrIBAN}}</IBAN>
             </Id>
-            <Ccy>{{TrDbtrCur}}</Ccy>
         </DbtrAcct>
         <DbtrAgt>
             <FinInstnId>
                 <BIC>{{TrDbtrBIC}}</BIC>
+                <PstlAdr>
+                    <Ctry>{{getCountryCode TrDbtrCtry}}</Ctry>
+                </PstlAdr>
             </FinInstnId>
         </DbtrAgt>
         <CdtTrfTxInf>
@@ -69,6 +71,16 @@
             <Amt>
                 <InstdAmt Ccy="{{BillCurrency}}">{{BillAmount}}</InstdAmt>
             </Amt>
+            <CdtrAgt>
+                <FinInstnId>
+                    <ClrSysMmbId>
+                        <ClrSysId>
+                            <Cd>SESBA</Cd>
+                        </ClrSysId>
+                        <MmbId>5365</MmbId>
+                    </ClrSysMmbId>
+                </FinInstnId>
+            </CdtrAgt>
             <Cdtr>
                 {{#ifCompare EmpNm "!=" ""}}
                 <Nm>{{EmpNm}}</Nm>
@@ -89,11 +101,11 @@
                     </Othr>
                 </Id>
             </CdtrAcct>
-            {{#ifCompare CdtrReportingCdNO "!=" ""}}
+            {{#ifCompare CdtrReportingCdSE "!=" ""}}
             <RgltryRptg>
                 <Dtls>
-                    <Cd>14</Cd>
-                    <Inf>Purchase, sale of goods</Inf>
+                <Cd>101</Cd>
+                <Inf>Imp/exp of goods</Inf>
                 </Dtls>
             </RgltryRptg>
             {{/ifCompare}}
@@ -120,53 +132,35 @@
                     <Ref>{{KID}}</Ref>
                     </CdtrRefInf>
                 </Strd>
-                {{#ifCompare billcreditdetails "!=" ""}}
-                    {{#each billcreditdetails}}
-                        {{#ifCompare BillCreditKID "!=" ""}}
-                        <Strd>
-                            <RfrdDocInf>
-                                <Tp>
-                                    <CdOrPrtry>
-                                        <Cd>CREN</Cd>
-                                    </CdOrPrtry>
-                                </Tp>
-                                <Nb>{{BillCreditRef}}</Nb>
-                            </RfrdDocInf>
-                            <RfrdDocAmt>
-                                <CdtNoteAmt Ccy="{{BillCreditCurrency}}">{{BillCreditFxAmount}}</CdtNoteAmt>
-                            </RfrdDocAmt>
-                            <CdtrRefInf>
-                                <Tp>
-                                    <CdOrPrtry>
-                                        <Cd>SCOR</Cd>
-                                    </CdOrPrtry>
-                                </Tp>
-                                <Ref>{{BillCreditKID}}</Ref>
-                            </CdtrRefInf>
-                        </Strd>
-                        {{/ifCompare}}
-                        {{#ifCompare BillCreditKID "==" ""}}
-                        <Strd>
-                            <RfrdDocInf>
-                                <Tp>
-                                    <CdOrPrtry>
-                                        <Cd>CREN</Cd>
-                                    </CdOrPrtry>
-                                </Tp>
-                                <Nb>{{BillCreditRef}}</Nb>
-                            </RfrdDocInf>
-                            <RfrdDocAmt>
-                                <CdtNoteAmt Ccy="{{BillCreditCurrency}}">{{BillCreditFxAmount}}</CdtNoteAmt>
-                            </RfrdDocAmt>
-                        </Strd>
-                        {{/ifCompare}}
+                    {{#ifCompare billcreditdetails "!=" ""}}
+                    {{#each billcreditdetails}} 
+                    <Strd>
+                        <RfrdDocInf>
+                            <Tp>
+                                <CdOrPrtry>
+                                    <Cd>CREN</Cd>
+                                </CdOrPrtry>
+                            </Tp>
+                        </RfrdDocInf>
+                        <RfrdDocAmt>
+                            <CdtNoteAmt Ccy="{{BillCreditCurrency}}">{{BillCreditFxAmount}}</CdtNoteAmt>
+                        </RfrdDocAmt>
+                        <CdtrRefInf>
+                            <Tp>
+                                <CdOrPrtry>
+                                    <Cd>SCOR</Cd>
+                                </CdOrPrtry>
+                            </Tp>
+                            <Ref>{{BillCreditRef}}</Ref>
+                        </CdtrRefInf>
+                    </Strd>
                     {{/each}}
-                {{/ifCompare}}
+                    {{/ifCompare}}
                 {{/ifCompare}}
                 {{#ifCompare KID "==" ""}}
                 {{#ifCompare billcreditdetails "!=" ""}}
                 {{#each billcreditdetails}} 
-                <Ustrd>{{BillRef}} - Credit: {{BillCreditRef}}</Ustrd>
+                <Ustrd>{{BillRef}} - Cr {{BillCreditRef}}</Ustrd>
                 {{else}}
                 <Ustrd>{{Ref}}</Ustrd>
                 {{/each}}
@@ -176,13 +170,305 @@
         </CdtTrfTxInf>
     </PmtInf>
     {{/ifCompare}}
-    {{#ifCompare PayTypeNO "==" "SEPA"}}
+    {{#ifCompare PayTypeSE "==" "Bankgiro"}}	
     <PmtInf>
-        <PmtInfId>{{PayRef}}</PmtInfId> 
+        <PmtInfId>{{PayRef}}</PmtInfId>
+        <PmtMtd>TRF</PmtMtd>
+        <BtchBookg>false</BtchBookg>
+        <CtrlSum>{{BillAmount}}</CtrlSum>
+        <PmtTpInf>
+            <SvcLvl>
+                <Prtry>MPNS</Prtry>
+            </SvcLvl>
+            <LclInstrm>
+                <Prtry>DO</Prtry>
+            </LclInstrm>
+        </PmtTpInf>
+        {{#ifCompare (dateFormat ReqdExctnDt "YYYYMMDD") "<" (dateFormat "" "YYYYMMDD")}}
+        <ReqdExctnDt>{{dateFormat "" "YYYY-MM-DD"  }}</ReqdExctnDt>
+        {{/ifCompare}}
+        {{#ifCompare (dateFormat ReqdExctnDt "YYYYMMDD") ">=" (dateFormat "" "YYYYMMDD")}}
+        <ReqdExctnDt>{{dateFormat ReqdExctnDt "YYYY-MM-DD"  }}</ReqdExctnDt>
+        {{/ifCompare}}
+        <Dbtr>
+            <Nm>{{TrDbtrNm}}</Nm>
+        </Dbtr>
+        <DbtrAcct>
+            <Id>
+                <Othr>
+                    <Id>{{TrDbtrBBAN}}</Id>
+                    <SchmeNm>
+                            <Cd>BBAN</Cd>
+                    </SchmeNm>
+                </Othr>
+            </Id>
+            <Ccy>{{TrDbtrCur}}</Ccy>
+        </DbtrAcct>
+        <DbtrAgt>
+            <FinInstnId>
+                <BIC>{{TrDbtrBIC}}</BIC>
+            </FinInstnId>
+        </DbtrAgt>
+        <CdtTrfTxInf>
+            <PmtId>
+                <InstrId>{{PayRef}}</InstrId>
+                <EndToEndId>{{PayRef}}</EndToEndId>
+            </PmtId>
+            <Amt>
+                <InstdAmt Ccy="{{BillCurrency}}">{{BillAmount}}</InstdAmt>
+            </Amt>
+            <CdtrAgt>
+            <FinInstnId>
+                <ClrSysMmbId>
+                    <ClrSysId>
+                        <Cd>SESBA</Cd>
+                    </ClrSysId>
+                <MmbId>9900</MmbId>
+                </ClrSysMmbId>
+            </FinInstnId>
+            </CdtrAgt>
+            <Cdtr>
+                {{#ifCompare EmpNm "!=" ""}}
+                <Nm>{{EmpNm}}</Nm>
+                {{else}}
+                <Nm>{{Cdtr}}</Nm>
+                {{/ifCompare}}
+            </Cdtr>
+            <CdtrAcct>
+                <Id>
+                    <Othr>
+                        <Id>{{CdtrAccount}}</Id>
+                        <SchmeNm>
+                            <Cd>BBAN</Cd>
+                        </SchmeNm>
+                    </Othr>
+                </Id>
+            </CdtrAcct>
+            {{#ifCompare CdtrReportingCdSE "!=" ""}}
+            <RgltryRptg>
+                <Dtls>
+                <Cd>101</Cd>
+                <Inf>Imp/exp of goods</Inf>
+                </Dtls>
+            </RgltryRptg>
+            {{/ifCompare}}
+            <RmtInf>
+                {{#ifCompare KID "!=" ""}}
+                <Strd>
+                <RfrdDocInf>
+                    <Tp>
+                    <CdOrPrtry>
+                        <Cd>CINV</Cd>
+                    </CdOrPrtry>
+                    </Tp>
+                    <RltdDt>{{dateFormat ReqdExctnDt "YYYY-MM-DD"}}</RltdDt>
+                </RfrdDocInf>
+                <RfrdDocAmt>
+                    <RmtdAmt Ccy="{{BillCurrency}}">{{BillOrgAmount}}</RmtdAmt>
+                </RfrdDocAmt>
+                <CdtrRefInf>
+                    <Tp>
+                    <CdOrPrtry>
+                        <Cd>SCOR</Cd>
+                    </CdOrPrtry>
+                    </Tp>
+                    <Ref>{{KID}}</Ref>
+                </CdtrRefInf>
+                </Strd>
+                    {{#ifCompare billcreditdetails "!=" ""}}
+                    {{#each billcreditdetails}} 
+                    <Strd>
+                        <RfrdDocInf>
+                            <Tp>
+                                <CdOrPrtry>
+                                    <Cd>CREN</Cd>
+                                </CdOrPrtry>
+                            </Tp>
+                        </RfrdDocInf>
+                        <RfrdDocAmt>
+                            <CdtNoteAmt Ccy="{{BillCreditCurrency}}">{{BillCreditFxAmount}}</CdtNoteAmt>
+                        </RfrdDocAmt>
+                        <CdtrRefInf>
+                            <Tp>
+                                <CdOrPrtry>
+                                    <Cd>SCOR</Cd>
+                                </CdOrPrtry>
+                            </Tp>
+                            <Ref>{{BillCreditRef}}</Ref>
+                        </CdtrRefInf>
+                    </Strd>
+                    {{/each}}
+                    {{/ifCompare}}
+                {{/ifCompare}}
+                {{#ifCompare KID "==" ""}}
+                {{#ifCompare billcreditdetails "!=" ""}}
+                {{#each billcreditdetails}} 
+                <Ustrd>{{BillRef}} - Cr {{BillCreditRef}}</Ustrd>
+                {{else}}
+                <Ustrd>{{Ref}}</Ustrd>
+                {{/each}}
+                {{/ifCompare}}
+                {{/ifCompare}}
+            </RmtInf>
+        </CdtTrfTxInf>
+    </PmtInf>
+    {{/ifCompare}}
+    {{#ifCompare PayTypeSE "==" "Plusgiro"}}
+    <PmtInf>
+        <PmtInfId>{{PayRef}}</PmtInfId>
+        <PmtMtd>TRF</PmtMtd>
+        <BtchBookg>false</BtchBookg>
+        <CtrlSum>{{BillAmount}}</CtrlSum>
+        <PmtTpInf>
+            <SvcLvl>
+                <Prtry>MPNS</Prtry>
+            </SvcLvl>
+            <LclInstrm>
+                <Prtry>DO</Prtry>
+            </LclInstrm>
+        </PmtTpInf>
+        {{#ifCompare (dateFormat ReqdExctnDt "YYYYMMDD") "<" (dateFormat "" "YYYYMMDD")}}
+        <ReqdExctnDt>{{dateFormat "" "YYYY-MM-DD"  }}</ReqdExctnDt>
+        {{/ifCompare}}
+        {{#ifCompare (dateFormat ReqdExctnDt "YYYYMMDD") ">=" (dateFormat "" "YYYYMMDD")}}
+        <ReqdExctnDt>{{dateFormat ReqdExctnDt "YYYY-MM-DD"  }}</ReqdExctnDt>
+        {{/ifCompare}}
+        <Dbtr>
+            <Nm>{{TrDbtrNm}}</Nm>
+        </Dbtr>
+        <DbtrAcct>
+            <Id>
+                <Othr>
+                    <Id>{{TrDbtrBBAN}}</Id>
+                    <SchmeNm>
+                            <Cd>BBAN</Cd>
+                    </SchmeNm>
+                </Othr>
+            </Id>
+            <Ccy>{{TrDbtrCur}}</Ccy>
+        </DbtrAcct>
+        <DbtrAgt>
+            <FinInstnId>
+                <BIC>{{TrDbtrBIC}}</BIC>
+            </FinInstnId>
+        </DbtrAgt>
+        <CdtTrfTxInf>
+            <PmtId>
+                <InstrId>{{PayRef}}</InstrId>
+                <EndToEndId>{{PayRef}}</EndToEndId>
+            </PmtId>
+            <Amt>
+                <InstdAmt Ccy="{{BillCurrency}}">{{BillAmount}}</InstdAmt>
+            </Amt>
+            <CdtrAgt>
+            <FinInstnId>
+                <ClrSysMmbId>
+                    <ClrSysId>
+                        <Cd>SESBA</Cd>
+                    </ClrSysId>
+                <MmbId>9960</MmbId>
+                </ClrSysMmbId>
+            </FinInstnId>
+            </CdtrAgt>
+            <Cdtr>
+                {{#ifCompare EmpNm "!=" ""}}
+                <Nm>{{EmpNm}}</Nm>
+                {{else}}
+                <Nm>{{Cdtr}}</Nm>
+                {{/ifCompare}}
+            </Cdtr>
+            <CdtrAcct>
+            <Id>
+                <Othr>
+                    <Id>{{CdtrAccount}}</Id>
+                    <SchmeNm>
+                        <Cd>BBAN</Cd>
+                    </SchmeNm>
+                </Othr>
+            </Id>
+            </CdtrAcct>
+            {{#ifCompare CdtrReportingCdSE "!=" ""}}
+            <RgltryRptg>
+                <Dtls>
+                <Cd>101</Cd>
+                <Inf>Imp/exp of goods</Inf>
+                </Dtls>
+            </RgltryRptg>
+            {{/ifCompare}}
+            <RmtInf>
+                {{#ifCompare KID "!=" ""}}
+                <Strd>
+                <RfrdDocInf>
+                    <Tp>
+                    <CdOrPrtry>
+                        <Cd>CINV</Cd>
+                    </CdOrPrtry>
+                    </Tp>
+                    <RltdDt>{{dateFormat ReqdExctnDt "YYYY-MM-DD"}}</RltdDt>
+                </RfrdDocInf>
+                <RfrdDocAmt>
+                    <RmtdAmt Ccy="{{BillCurrency}}">{{BillOrgAmount}}</RmtdAmt>
+                </RfrdDocAmt>
+                <CdtrRefInf>
+                    <Tp>
+                    <CdOrPrtry>
+                        <Cd>SCOR</Cd>
+                    </CdOrPrtry>
+                    </Tp>
+                    <Ref>{{KID}}</Ref>
+                </CdtrRefInf>
+                </Strd>
+                    {{#ifCompare billcreditdetails "!=" ""}}
+                    {{#each billcreditdetails}} 
+                    <Strd>
+                        <RfrdDocInf>
+                            <Tp>
+                                <CdOrPrtry>
+                                    <Cd>CREN</Cd>
+                                </CdOrPrtry>
+                            </Tp>
+                        </RfrdDocInf>
+                        <RfrdDocAmt>
+                            <CdtNoteAmt Ccy="{{BillCreditCurrency}}">{{BillCreditFxAmount}}</CdtNoteAmt>
+                        </RfrdDocAmt>
+                        <CdtrRefInf>
+                            <Tp>
+                                <CdOrPrtry>
+                                    <Cd>SCOR</Cd>
+                                </CdOrPrtry>
+                            </Tp>
+                            <Ref>{{BillCreditRef}}</Ref>
+                        </CdtrRefInf>
+                    </Strd>
+                    {{/each}}
+                    {{/ifCompare}}
+                {{/ifCompare}}
+                {{#ifCompare KID "==" ""}}
+                {{#ifCompare billcreditdetails "!=" ""}}
+                {{#each billcreditdetails}} 
+                <Ustrd>{{BillRef}} - Cr {{BillCreditRef}}</Ustrd>
+                {{else}}
+                <Ustrd>{{Ref}}</Ustrd>
+                {{/each}}
+                {{/ifCompare}}
+                {{/ifCompare}}
+            </RmtInf>
+        </CdtTrfTxInf>
+    </PmtInf>
+    {{/ifCompare}}
+    {{#ifCompare PayTypeSE "==" "International IBAN"}}
+    {{#ifCompare BillCurrency "==" "EUR"}}
+    <PmtInf>
+        <PmtInfId>{{PayRef}}</PmtInfId>
         <PmtMtd>TRF</PmtMtd>
         <BtchBookg>false</BtchBookg>
         <NbOfTxs>1</NbOfTxs>
         <CtrlSum>{{BillAmount}}</CtrlSum>
+        <PmtTpInf>
+        <SvcLvl>
+            <Cd>SEPA</Cd>
+        </SvcLvl>
+        </PmtTpInf>
         {{#ifCompare (dateFormat ReqdExctnDt "YYYYMMDD") "<" (dateFormat "" "YYYYMMDD")}}
         <ReqdExctnDt>{{dateFormat "" "YYYY-MM-DD"  }}</ReqdExctnDt>
         {{/ifCompare}}
@@ -192,11 +478,7 @@
         <Dbtr>
             <Nm>{{TrDbtrNm}}</Nm>
             <PstlAdr>
-                <StrtNm>{{TrDbtrAddr}}</StrtNm>
-                <PstCd>{{TrDbtrZip}}</PstCd>
-                <TwnNm>{{TrDbtrCity}}</TwnNm>
                 <Ctry>{{getCountryCode TrDbtrCtry}}</Ctry>
-                <AdrLine>{{TrDbtrAddr}}, {{TrDbtrZip}}, {{TrDbtrCity}}, {{getCountryCode TrDbtrCtry}}</AdrLine>
             </PstlAdr>
             <Id>
                 <OrgId>
@@ -235,36 +517,9 @@
             <Amt>
                 <InstdAmt Ccy="{{BillCurrency}}">{{BillAmount}}</InstdAmt>
             </Amt>
-            {{#ifCompare CdtrBankCode "!=" ""}}
-            <IntrmyAgt1>
-                <FinInstnId>
-                    <BIC>{{CdtrBIC}}</BIC>
-                </FinInstnId>
-            </IntrmyAgt1>
-            {{/ifCompare}}
             <CdtrAgt>
                 <FinInstnId>
                     <BIC>{{CdtrBIC}}</BIC>
-                    <PstlAdr>
-                        {{#ifCompare EmpAddr "!=" ""}}
-                        <StrtNm>{{EmpAddr}}</StrtNm>
-                        {{else}}
-                        <StrtNm>{{CdtrAddr}}</StrtNm>
-                        {{/ifCompare}}
-                        {{#ifCompare EmpZip "!=" ""}}
-                        <PstCd>{{EmpZip}}</PstCd>
-                        {{else}}
-                        <PstCd>{{CdtrZip}}</PstCd>                      
-                        {{/ifCompare}}
-                        {{#ifCompare EmpCity "!=" ""}}
-                        <TwnNm>{{EmpCity}}</TwnNm>
-                        {{else}}
-                        <TwnNm>{{CdtrCity}}</TwnNm>
-                        {{/ifCompare}}
-                        {{#ifCompare CdtrBankCtry "!=" ""}}
-                        <Ctry>{{getCountryCode CdtrBankCtry}}</Ctry>
-                        {{/ifCompare}}
-                    </PstlAdr>
                 </FinInstnId>
             </CdtrAgt>
             <Cdtr>
@@ -282,7 +537,7 @@
                     {{#ifCompare EmpZip "!=" ""}}
                     <PstCd>{{EmpZip}}</PstCd>
                     {{else}}
-                    <PstCd>{{CdtrZip}}</PstCd>
+                    <PstCd>{{CdtrZip}}</PstCd>                      
                     {{/ifCompare}}
                     {{#ifCompare EmpCity "!=" ""}}
                     <TwnNm>{{EmpCity}}</TwnNm>
@@ -299,40 +554,33 @@
                     <IBAN>{{CdtrIBAN}}</IBAN>
                 </Id>
             </CdtrAcct>
-            {{#ifCompare CdtrReportingCdNO "==" "NO 14 - Purchase/sale of goods"}}
+            {{#ifCompare CdtrReportingCdSE "!=" ""}}
             <RgltryRptg>
                 <Dtls>
-                    <Cd>14</Cd>
-                    <Inf>Purchase, sale of goods</Inf>
+                <Cd>101</Cd>
+                <Inf>Imp/exp of goods</Inf>
                 </Dtls>
             </RgltryRptg>
             {{/ifCompare}}
-            {{#ifCompare CdtrReportingCdNO "==" "NO29 Other services (not rent)"}}
-            <RgltryRptg>
-                <Dtls>
-                    <Cd>29</Cd>
-                    <Inf>Purchase, sale of service</Inf>
-                </Dtls>
-            </RgltryRptg>
-            {{/ifCompare}}
-            <RmtInf>
+            <RmtInf>                
                 {{#ifCompare billcreditdetails "!=" ""}}
                 {{#each billcreditdetails}} 
-                <Ustrd>{{BillRef}} - Credit: {{BillCrRef}}</Ustrd>
-                {{/each}}
-                <Ustrd>{{Ref}}</Ustrd>
+                <Ustrd>{{BillRef}} - Cr {{BillCreditRef}}</Ustrd>
                 {{else}}
-                {{/ifCompare}}
+                <Ustrd>{{Ref}}</Ustrd>
+                {{/each}}
+                {{/ifCompare}}                    
             </RmtInf>
         </CdtTrfTxInf>
     </PmtInf>
     {{/ifCompare}}
-    {{#ifCompare PayTypeNO "==" "International IBAN"}}
+    {{/ifCompare}}
+    {{#ifCompare PayTypeSE "==" "International IBAN"}}
+    {{#ifCompare BillCurrency "!=" "EUR"}}
     <PmtInf>
         <PmtInfId>{{PayRef}}</PmtInfId> 
         <PmtMtd>TRF</PmtMtd>
         <BtchBookg>false</BtchBookg>
-        <NbOfTxs>1</NbOfTxs>
         <CtrlSum>{{BillAmount}}</CtrlSum>
         {{#ifCompare (dateFormat ReqdExctnDt "YYYYMMDD") "<" (dateFormat "" "YYYYMMDD")}}
         <ReqdExctnDt>{{dateFormat "" "YYYY-MM-DD"  }}</ReqdExctnDt>
@@ -343,11 +591,7 @@
         <Dbtr>
             <Nm>{{TrDbtrNm}}</Nm>
             <PstlAdr>
-                <StrtNm>{{TrDbtrAddr}}</StrtNm>
-                <PstCd>{{TrDbtrZip}}</PstCd>
-                <TwnNm>{{TrDbtrCity}}</TwnNm>
                 <Ctry>{{getCountryCode TrDbtrCtry}}</Ctry>
-                <AdrLine>{{TrDbtrAddr}}, {{TrDbtrZip}}, {{TrDbtrCity}}, {{getCountryCode TrDbtrCtry}}</AdrLine>
             </PstlAdr>
             <Id>
                 <OrgId>
@@ -376,7 +620,6 @@
                 <BIC>{{TrDbtrBIC}}</BIC>
             </FinInstnId>
         </DbtrAgt>
-        <ChrgBr>SLEV</ChrgBr>
         <CdtTrfTxInf>
             <PmtId>
                 <InstrId>{{PayRef}}</InstrId>
@@ -385,13 +628,6 @@
             <Amt>
                 <InstdAmt Ccy="{{BillCurrency}}">{{BillAmount}}</InstdAmt>
             </Amt>
-            {{#ifCompare CdtrBankCode "!=" ""}}
-            <IntrmyAgt1>
-                <FinInstnId>
-                    <BIC>{{CdtrBIC}}</BIC>
-                </FinInstnId>
-            </IntrmyAgt1>
-            {{/ifCompare}}
             <CdtrAgt>
                 <FinInstnId>
                     <BIC>{{CdtrBIC}}</BIC>
@@ -412,7 +648,7 @@
                     {{#ifCompare EmpZip "!=" ""}}
                     <PstCd>{{EmpZip}}</PstCd>
                     {{else}}
-                    <PstCd>{{CdtrZip}}</PstCd>
+                    <PstCd>{{CdtrZip}}</PstCd>                      
                     {{/ifCompare}}
                     {{#ifCompare EmpCity "!=" ""}}
                     <TwnNm>{{EmpCity}}</TwnNm>
@@ -429,26 +665,18 @@
                     <IBAN>{{CdtrIBAN}}</IBAN>
                 </Id>
             </CdtrAcct>
-            {{#ifCompare CdtrReportingCdNO "==" "NO14 Purchase / sale of goods"}}
+            {{#ifCompare CdtrReportingCdSE "!=" ""}}
             <RgltryRptg>
                 <Dtls>
-                    <Cd>14</Cd>
-                    <Inf>Purchase, sale of goods</Inf>
-                </Dtls>
-            </RgltryRptg>
-            {{/ifCompare}}
-            {{#ifCompare CdtrReportingCdNO "==" "NO29 Other services (not rent)"}}
-            <RgltryRptg>
-                <Dtls>
-                    <Cd>29</Cd>
-                    <Inf>Purchase, sale of service</Inf>
+                <Cd>101</Cd>
+                <Inf>Imp/exp of goods</Inf>
                 </Dtls>
             </RgltryRptg>
             {{/ifCompare}}
             <RmtInf>
                 {{#ifCompare billcreditdetails "!=" ""}}
                 {{#each billcreditdetails}} 
-                <Ustrd>{{BillRef}} - Credit: {{BillCreditRef}}</Ustrd>
+                <Ustrd>{{BillRef}} - Cr {{BillCreditRef}}</Ustrd>
                 {{else}}
                 <Ustrd>{{Ref}}</Ustrd>
                 {{/each}}
@@ -457,12 +685,12 @@
         </CdtTrfTxInf>
     </PmtInf>
     {{/ifCompare}}
-    {{#ifCompare PayTypeNO "==" "International NON IBAN"}}
+    {{/ifCompare}}
+    {{#ifCompare PayTypeSE "==" "International NON IBAN"}}
     <PmtInf>
         <PmtInfId>{{PayRef}}</PmtInfId> 
         <PmtMtd>TRF</PmtMtd>
         <BtchBookg>false</BtchBookg>
-        <NbOfTxs>1</NbOfTxs>
         <CtrlSum>{{BillAmount}}</CtrlSum>
         {{#ifCompare (dateFormat ReqdExctnDt "YYYYMMDD") "<" (dateFormat "" "YYYYMMDD")}}
         <ReqdExctnDt>{{dateFormat "" "YYYY-MM-DD"  }}</ReqdExctnDt>
@@ -473,11 +701,7 @@
         <Dbtr>
             <Nm>{{TrDbtrNm}}</Nm>
             <PstlAdr>
-                <StrtNm>{{TrDbtrAddr}}</StrtNm>
-                <PstCd>{{TrDbtrZip}}</PstCd>
-                <TwnNm>{{TrDbtrCity}}</TwnNm>
                 <Ctry>{{getCountryCode TrDbtrCtry}}</Ctry>
-                <AdrLine>{{TrDbtrAddr}}, {{TrDbtrZip}}, {{TrDbtrCity}}, {{getCountryCode TrDbtrCtry}}</AdrLine>
             </PstlAdr>
             <Id>
                 <OrgId>
@@ -506,7 +730,6 @@
                 <BIC>{{TrDbtrBIC}}</BIC>
             </FinInstnId>
         </DbtrAgt>
-        <ChrgBr>DEBT</ChrgBr>
         <CdtTrfTxInf>
             <PmtId>
                 <InstrId>{{PayRef}}</InstrId>
@@ -516,19 +739,6 @@
                 <InstdAmt Ccy="{{BillCurrency}}">{{BillAmount}}</InstdAmt>
             </Amt>
             {{#ifCompare CdtrBankCode "!=" ""}}
-            <IntrmyAgt1>
-                <FinInstnId>
-                    <BIC>{{CdtrBIC}}</BIC>
-                </FinInstnId>
-            </IntrmyAgt1>
-            {{/ifCompare}}
-            {{#ifCompare CdtrBIC "!=" ""}}
-            <CdtrAgt>
-                <FinInstnId>
-                    <BIC>{{CdtrBIC}}</BIC>
-                </FinInstnId>
-            </CdtrAgt>
-            {{else}}
             <CdtrAgt>
                 <FinInstnId>
                     <ClrSysMmbId>
@@ -542,6 +752,12 @@
                     </PstlAdr>
                 </FinInstnId>
             </CdtrAgt>
+            {{else}}
+            <CdtrAgt>
+                <FinInstnId>
+                    <BIC>{{CdtrBIC}}</BIC>
+                </FinInstnId>
+            </CdtrAgt>
             {{/ifCompare}}
             <Cdtr>
                 {{#ifCompare EmpNm "!=" ""}}
@@ -558,7 +774,7 @@
                     {{#ifCompare EmpZip "!=" ""}}
                     <PstCd>{{EmpZip}}</PstCd>
                     {{else}}
-                    <PstCd>{{CdtrZip}}</PstCd>
+                    <PstCd>{{CdtrZip}}</PstCd>                      
                     {{/ifCompare}}
                     {{#ifCompare EmpCity "!=" ""}}
                     <TwnNm>{{EmpCity}}</TwnNm>
@@ -580,26 +796,18 @@
                     </Othr>
                 </Id>
             </CdtrAcct>
-            {{#ifCompare CdtrReportingCdNO "==" "NO 14 - Purchase/sale of goods"}}
+            {{#ifCompare CdtrReportingCdSE "!=" ""}}
             <RgltryRptg>
                 <Dtls>
-                    <Cd>14</Cd>
-                    <Inf>Purchase, sale of goods</Inf>
-                </Dtls>
-            </RgltryRptg>
-            {{/ifCompare}}
-            {{#ifCompare CdtrReportingCdNO "==" "NO29 Other services (not rent)"}}
-            <RgltryRptg>
-                <Dtls>
-                    <Cd>29</Cd>
-                    <Inf>Purchase, sale of service</Inf>
+                <Cd>101</Cd>
+                <Inf>Imp/exp of goods</Inf>
                 </Dtls>
             </RgltryRptg>
             {{/ifCompare}}
             <RmtInf>
                 {{#ifCompare billcreditdetails "!=" ""}}
                 {{#each billcreditdetails}} 
-                <Ustrd>{{BillRef}} - Credit: {{BillCreditRef}}</Ustrd>
+                <Ustrd>{{BillRef}} - Cr {{BillCreditRef}}</Ustrd>
                 {{else}}
                 <Ustrd>{{Ref}}</Ustrd>
                 {{/each}}
@@ -608,6 +816,85 @@
         </CdtTrfTxInf>
     </PmtInf>
     {{/ifCompare}}
-    {{/each}}
+    {{#ifCompare PayTypeSE "==" "Intracompany"}}
+    <PmtInf>
+        <PmtInfId>{{PayRef}}</PmtInfId> 
+        <PmtMtd>TRF</PmtMtd>
+        <BtchBookg>false</BtchBookg>
+        <CtrlSum>{{BillAmount}}</CtrlSum>
+        <PmtTpInf>
+            <CtgyPurp>
+                <Cd>INTC</Cd>
+            </CtgyPurp>
+        </PmtTpInf>
+        {{#ifCompare (dateFormat ReqdExctnDt "YYYYMMDD") "<" (dateFormat "" "YYYYMMDD")}}
+        <ReqdExctnDt>{{dateFormat "" "YYYY-MM-DD"  }}</ReqdExctnDt>
+        {{/ifCompare}}
+        {{#ifCompare (dateFormat ReqdExctnDt "YYYYMMDD") ">=" (dateFormat "" "YYYYMMDD")}}
+        <ReqdExctnDt>{{dateFormat ReqdExctnDt "YYYY-MM-DD"  }}</ReqdExctnDt>
+        {{/ifCompare}}
+        <Dbtr>
+            <Nm>{{TrDbtrNm}}</Nm>
+            <PstlAdr>
+                <Ctry>{{getCountryCode TrDbtrCtry}}</Ctry>
+            </PstlAdr>
+        </Dbtr>
+        <DbtrAcct>
+            <Id>
+                <IBAN>{{TrDbtrIBAN}}</IBAN>
+            </Id>
+            <Ccy>{{DbtrCcy}}</Ccy>
+        </DbtrAcct>
+        <DbtrAgt>
+            <FinInstnId>
+                <BIC>{{TrDbtrBIC}}</BIC>
+            </FinInstnId>
+        </DbtrAgt>
+        <CdtTrfTxInf>
+            <PmtId>
+                <InstrId>{{PayRef}}</InstrId>
+                <EndToEndId>{{PayRef}}</EndToEndId>
+            </PmtId>
+            <Amt>
+                <InstdAmt Ccy="{{BillCurrency}}">{{BillAmount}}</InstdAmt>
+            </Amt>
+            <CdtrAgt>
+                <FinInstnId>
+                    <BIC>{{CdtrBIC}}</BIC>
+                </FinInstnId>
+            </CdtrAgt>
+            <Cdtr>
+                {{#ifCompare EmpNm "!=" ""}}
+                <Nm>{{EmpNm}}</Nm>
+                {{else}}
+                <Nm>{{Cdtr}}</Nm>
+                {{/ifCompare}}
+                <PstlAdr>
+                    <Ctry>{{getCountryCode CdtrBankCtry}}</Ctry>
+                </PstlAdr>
+            </Cdtr>
+            <CdtrAcct>
+                <Id>
+                    <Othr>
+                        <Id>{{CdtrAccount}}</Id>
+                        <SchmeNm>
+                            <Cd>BBAN</Cd>
+                        </SchmeNm>
+                    </Othr>
+                </Id>
+            </CdtrAcct>
+            <RmtInf>
+                {{#ifCompare billcreditdetails "!=" ""}}
+                {{#each billcreditdetails}} 
+                <Ustrd>{{BillRef}} - Cr {{BillCreditRef}}</Ustrd>
+                {{else}}
+                <Ustrd>{{Ref}}</Ustrd>
+                {{/each}}
+                {{/ifCompare}}
+            </RmtInf>
+        </CdtTrfTxInf>
+    </PmtInf>
+    {{/ifCompare}}
+    {{/each}}    
 </CstmrCdtTrfInitn>
 </Document>

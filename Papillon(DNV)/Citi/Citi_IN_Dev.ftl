@@ -67,38 +67,33 @@
           <InstdAmt Ccy="{{BillCurrency}}">{{BillAmount}}</InstdAmt>
         </Amt>
         <ChrgBr>DEBT</ChrgBr>
-        {{#ifCompare CdtrBankCode "!=" ""}}
         <CdtrAgt>
           <FinInstnId>
-            <BIC>{{CdtrBIC}}</BIC>
+            {{#ifCompare CdtrBankCode "!=" ""}}
             <ClrSysMmbId>
               <ClrSysId>
-                <Cd>SG</Cd>
+                <Cd>IN</Cd>
               </ClrSysId>
               <MmbId>{{CdtrBankCode}}</MmbId>
             </ClrSysMmbId>
-            <PstlAdr>
-              <Ctry>{{getCountryCode CdtrBankCtry}}</Ctry>
-            </PstlAdr>
-          </FinInstnId>
-        </CdtrAgt>
-        {{/ifCompare}}
-        {{#ifCompare CdtrClearing "!=" ""}}
-        <CdtrAgt>
-          <FinInstnId>
-            <BIC>{{CdtrBIC}}</BIC>
+            {{/ifCompare}}
+            {{#ifCompare CdtrClearing "!=" ""}}
             <ClrSysMmbId>
               <ClrSysId>
-                <Cd>SG</Cd>
+                <Cd>IN</Cd>
               </ClrSysId>
               <MmbId>{{CdtrClearing}}</MmbId>
             </ClrSysMmbId>
+            {{/ifCompare}}
+            {{#ifCompare CdtrBIC "!=" ""}}
+            <BIC>{{CdtrBIC}}</BIC>
+            {{/ifCompare}}
+            <Nm>{{CdtrBankName}}</Nm>  
             <PstlAdr>
-              <Ctry>{{getCountryCode CdtrBankCtry}}</Ctry>
+              <Ctry>{{getCountryCode CdtrCtry}}</Ctry>
             </PstlAdr>
           </FinInstnId>
         </CdtrAgt>
-        {{/ifCompare}}
         <Cdtr>
           {{#ifCompare CdtrNm "!=" ""}}
           <Nm>{{CdtrNm}}</Nm>

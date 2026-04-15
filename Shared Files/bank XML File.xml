@@ -75,6 +75,7 @@
 			<EmpCity>custrecord_rmpay_bills_pp_empcity</EmpCity>
 			<EmpNm>custrecord_rmpay_bills_pp_empname</EmpNm>
 			<POBO>custrecord_rmpay_bills_pp_pobo</POBO>
+			<VendorFullName>custrecord_rmpay_bills_pp_venfullnm</VendorFullName>
 		</trandetails>
 		<vendorbillcreditdetails>
 			<BillCreditEntity>entity</BillCreditEntity>
@@ -84,8 +85,9 @@
 			<BillCreditFxAmount>appliedtoforeignamount</BillCreditFxAmount>
 			<BillCreditCurrency>currency.iso</BillCreditCurrency>
 			<BillCreditRef>tranid</BillCreditRef>
-			<BillRef>transactionnumber</BillRef>
+			<BillRef>tranid</BillRef>
 			<AppliedTo>appliedtotransaction</AppliedTo>
+			<!-- <BillCreditKID>custbody_billreferencenum</BillCreditKID>-->   <!--STRAWBERRY-->
 		</vendorbillcreditdetails>
     </proposal>
  </root>

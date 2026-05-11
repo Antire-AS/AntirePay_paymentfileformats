@@ -33,10 +33,14 @@
             <NbOfTxs>1</NbOfTxs>
             <CtrlSum>{{BillAmount}}</CtrlSum>
             {{#ifCompare (dateFormat ReqdExctnDt "YYYYMMDD") "<" (dateFormat "" "YYYYMMDD")}}
-            <ReqdExctnDt>{{dateFormat "" "YYYY-MM-DD"  }}</ReqdExctnDt>
+            <ReqdExctnDt>
+                <Dt>{{dateFormat ReqdExctnDt "YYYY-MM-DD"  }}</Dt>
+            </ReqdExctnDt>
             {{/ifCompare}}
             {{#ifCompare (dateFormat ReqdExctnDt "YYYYMMDD") ">=" (dateFormat "" "YYYYMMDD")}}
-            <ReqdExctnDt>{{dateFormat ReqdExctnDt "YYYY-MM-DD"  }}</ReqdExctnDt>
+            <ReqdExctnDt>
+                <Dt>{{dateFormat ReqdExctnDt "YYYY-MM-DD"  }}</Dt>
+            </ReqdExctnDt>
             {{/ifCompare}}
             <Dbtr>
                 <Nm>{{TrDbtrNm}}</Nm>
@@ -47,13 +51,6 @@
                     <Ctry>{{getCountryCode TrDbtrCtry}}</Ctry>
                     <AdrLine>{{TrDbtrAddr}}, {{TrDbtrZip}}, {{TrDbtrCity}}, {{getCountryCode TrDbtrCtry}}</AdrLine>
                 </PstlAdr>
-                <Id>
-                    <OrgId>
-                        <Othr>
-                            <Id>ABN_ISO20022</Id>
-                        </Othr>
-                    </OrgId>
-                </Id>
             </Dbtr>
             <DbtrAcct>
                 <Id>
@@ -63,7 +60,7 @@
             </DbtrAcct>
             <DbtrAgt>
                 <FinInstnId>
-                    <BIC>{{TrDbtrBIC}}</BIC>
+                    <BICFI>{{TrDbtrBIC}}</BICFI>
                 </FinInstnId>
             </DbtrAgt>
             <ChrgBr>SHAR</ChrgBr>
@@ -91,7 +88,7 @@
                 </Amt>
                 <CdtrAgt>
                     <FinInstnId>
-                        <BIC>CHASSGSG</BIC>
+                        <BICFI>{{CdtrBIC}}</BICFI>
                     </FinInstnId>
                 </CdtrAgt>
                 <Cdtr>
@@ -104,22 +101,15 @@
                     </PstlAdr>
                 </Cdtr>
                 <CdtrAcct>
-                <Id>
-                    <Othr>
-                    <Id>{{CdtrAccount}}</Id>
-                    <SchmeNm>
-                        <Cd>BBAN</Cd>
-                    </SchmeNm>
-                    </Othr>
-                </Id>
+                    <Id>
+                        <Othr>
+                            <Id>{{CdtrAccount}}</Id>
+                            <SchmeNm>
+                                <Cd>BBAN</Cd>
+                            </SchmeNm>
+                        </Othr>
+                    </Id>
                 </CdtrAcct>
-                <RgltryRptg>
-                <Dtls>
-                    <Cd>14</Cd>
-                    <Amt Ccy="{{BillCurrency}}">{{BillAmount}}</Amt>
-                    <Inf>Skipsutgifter</Inf>
-                </Dtls>
-                </RgltryRptg>
                 <RmtInf>
                     <Ustrd>{{Ref}}</Ustrd>
                 </RmtInf>
@@ -139,10 +129,14 @@
             <NbOfTxs>1</NbOfTxs>
             <CtrlSum>{{BillAmount}}</CtrlSum>
             {{#ifCompare (dateFormat ReqdExctnDt "YYYYMMDD") "<" (dateFormat "" "YYYYMMDD")}}
-            <ReqdExctnDt>{{dateFormat "" "YYYY-MM-DD"  }}</ReqdExctnDt>
+            <ReqdExctnDt>
+                <Dt>{{dateFormat ReqdExctnDt "YYYY-MM-DD"  }}</Dt>
+            </ReqdExctnDt>
             {{/ifCompare}}
             {{#ifCompare (dateFormat ReqdExctnDt "YYYYMMDD") ">=" (dateFormat "" "YYYYMMDD")}}
-            <ReqdExctnDt>{{dateFormat ReqdExctnDt "YYYY-MM-DD"  }}</ReqdExctnDt>
+            <ReqdExctnDt>
+                <Dt>{{dateFormat ReqdExctnDt "YYYY-MM-DD"  }}</Dt>
+            </ReqdExctnDt>
             {{/ifCompare}}
             <Dbtr>
                 <Nm>{{TrDbtrNm}}</Nm>
@@ -152,13 +146,6 @@
                     <TwnNm>{{TrDbtrCity}}</TwnNm>
                     <Ctry>{{getCountryCode TrDbtrCtry}}</Ctry>
                 </PstlAdr>
-                <Id>
-                    <OrgId>
-                        <Othr>
-                            <Id>ABN_ISO20022</Id>
-                        </Othr>
-                    </OrgId>
-                </Id>
             </Dbtr>
             <DbtrAcct>
                 <Id>
@@ -168,7 +155,7 @@
             </DbtrAcct>
             <DbtrAgt>
                 <FinInstnId>
-                    <BIC>{{TrDbtrBIC}}</BIC>
+                    <BICFI>{{TrDbtrBIC}}</BICFI>
                 </FinInstnId>
             </DbtrAgt>
             <ChrgBr>SLEV</ChrgBr>
@@ -196,7 +183,7 @@
                 </Amt>
                 <CdtrAgt>
                     <FinInstnId>
-                        <BIC>{{CdtrBIC}}</BIC>
+                        <BICFI>{{CdtrBIC}}</BICFI>
                     </FinInstnId>
                 </CdtrAgt>
                 <Cdtr>
@@ -233,10 +220,14 @@
             <NbOfTxs>1</NbOfTxs>
             <CtrlSum>{{BillAmount}}</CtrlSum>
             {{#ifCompare (dateFormat ReqdExctnDt "YYYYMMDD") "<" (dateFormat "" "YYYYMMDD")}}
-            <ReqdExctnDt>{{dateFormat "" "YYYY-MM-DD"  }}</ReqdExctnDt>
+            <ReqdExctnDt>
+                <Dt>{{dateFormat ReqdExctnDt "YYYY-MM-DD"  }}</Dt>
+            </ReqdExctnDt>
             {{/ifCompare}}
             {{#ifCompare (dateFormat ReqdExctnDt "YYYYMMDD") ">=" (dateFormat "" "YYYYMMDD")}}
-            <ReqdExctnDt>{{dateFormat ReqdExctnDt "YYYY-MM-DD"  }}</ReqdExctnDt>
+            <ReqdExctnDt>
+                <Dt>{{dateFormat ReqdExctnDt "YYYY-MM-DD"  }}</Dt>
+            </ReqdExctnDt>
             {{/ifCompare}}
             <Dbtr>
                 <Nm>{{TrDbtrNm}}</Nm>
@@ -246,13 +237,6 @@
                     <TwnNm>{{TrDbtrCity}}</TwnNm>
                     <Ctry>{{getCountryCode TrDbtrCtry}}</Ctry>
                 </PstlAdr>
-                <Id>
-                    <OrgId>
-                        <Othr>
-                            <Id>ABN_ISO20022</Id>
-                        </Othr>
-                    </OrgId>
-                </Id>
             </Dbtr>
             <DbtrAcct>
                 <Id>
@@ -262,7 +246,7 @@
             </DbtrAcct>
             <DbtrAgt>
                 <FinInstnId>
-                    <BIC>{{TrDbtrBIC}}</BIC>
+                    <BICFI>{{TrDbtrBIC}}</BICFI>
                 </FinInstnId>
             </DbtrAgt>
             <ChrgBr>SHAR</ChrgBr>
@@ -290,7 +274,7 @@
                 </Amt>
                 <CdtrAgt>
                     <FinInstnId>
-                        <BIC>{{CdtrBIC}}</BIC>
+                        <BICFI>{{CdtrBIC}}</BICFI>
                     </FinInstnId>
                 </CdtrAgt>
                 <Cdtr>
@@ -326,10 +310,14 @@
             <NbOfTxs>1</NbOfTxs>
             <CtrlSum>{{BillAmount}}</CtrlSum>
             {{#ifCompare (dateFormat ReqdExctnDt "YYYYMMDD") "<" (dateFormat "" "YYYYMMDD")}}
-            <ReqdExctnDt>{{dateFormat "" "YYYY-MM-DD"  }}</ReqdExctnDt>
+            <ReqdExctnDt>
+                <Dt>{{dateFormat ReqdExctnDt "YYYY-MM-DD"  }}</Dt>
+            </ReqdExctnDt>
             {{/ifCompare}}
             {{#ifCompare (dateFormat ReqdExctnDt "YYYYMMDD") ">=" (dateFormat "" "YYYYMMDD")}}
-            <ReqdExctnDt>{{dateFormat ReqdExctnDt "YYYY-MM-DD"  }}</ReqdExctnDt>
+            <ReqdExctnDt>
+                <Dt>{{dateFormat ReqdExctnDt "YYYY-MM-DD"  }}</Dt>
+            </ReqdExctnDt>
             {{/ifCompare}}
             <Dbtr>
                 <Nm>{{TrDbtrNm}}</Nm>
@@ -339,13 +327,6 @@
                     <TwnNm>{{TrDbtrCity}}</TwnNm>
                     <Ctry>{{getCountryCode TrDbtrCtry}}</Ctry>
                 </PstlAdr>
-                <Id>
-                    <OrgId>
-                        <Othr>
-                            <Id>ABN_ISO20022</Id>
-                        </Othr>
-                    </OrgId>
-                </Id>
             </Dbtr>
             <DbtrAcct>
                 <Id>
@@ -355,7 +336,7 @@
             </DbtrAcct>
             <DbtrAgt>
                 <FinInstnId>
-                    <BIC>{{TrDbtrBIC}}</BIC>
+                    <BICFI>{{TrDbtrBIC}}</BICFI>
                 </FinInstnId>
             </DbtrAgt>
             <ChrgBr>SHAR</ChrgBr>
@@ -383,7 +364,7 @@
                 </Amt>
                 <CdtrAgt>
                     <FinInstnId>
-                        <BIC>{{CdtrBIC}}</BIC>
+                        <BICFI>{{CdtrBIC}}</BICFI>
                     </FinInstnId>
                 </CdtrAgt>
                 <Cdtr>
@@ -405,13 +386,6 @@
                         </Othr>
                     </Id>
                 </CdtrAcct>
-                <RgltryRptg>
-                <Dtls>
-                    <Cd>14</Cd>
-                    <Amt Ccy="{{BillCurrency}}">{{BillAmount}}</Amt>
-                    <Inf>Skipsutgifter</Inf>
-                </Dtls>
-                </RgltryRptg>
                 <RmtInf>
                     <Ustrd>{{Ref}}</Ustrd>
                 </RmtInf>

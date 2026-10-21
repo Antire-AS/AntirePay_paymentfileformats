@@ -32,6 +32,12 @@
             <BtchBookg>false</BtchBookg>
             <NbOfTxs>1</NbOfTxs>
             <CtrlSum>{{BillAmount}}</CtrlSum>
+            <PmtTpInf>
+                <InstrPrty>NORM</InstrPrty>
+                <SvcLvl>
+                    <Cd>NURG</Cd>
+                </SvcLvl>
+            </PmtTpInf>
             {{#ifCompare (dateFormat ReqdExctnDt "YYYYMMDD") "<" (dateFormat "" "YYYYMMDD")}}
             <ReqdExctnDt>
                 <Dt>{{dateFormat ReqdExctnDt "YYYY-MM-DD"  }}</Dt>
@@ -77,12 +83,6 @@
                     <EndToEndId>{{PayRef}}</EndToEndId>
                     {{/ifCompare}} 
                 </PmtId>
-                <PmtTpInf>
-                    <InstrPrty>NORM</InstrPrty>
-                    <SvcLvl>
-                        <Cd>NURG</Cd>
-                    </SvcLvl>
-                    </PmtTpInf>
                 <Amt>
                     <InstdAmt Ccy="{{BillCurrency}}">{{BillAmount}}</InstdAmt>
                 </Amt>
@@ -128,6 +128,12 @@
             <BtchBookg>false</BtchBookg>
             <NbOfTxs>1</NbOfTxs>
             <CtrlSum>{{BillAmount}}</CtrlSum>
+            <PmtTpInf>
+                <InstrPrty>NORM</InstrPrty>
+                <SvcLvl>
+                    <Cd>NURG</Cd>
+                </SvcLvl>
+            </PmtTpInf>
             {{#ifCompare (dateFormat ReqdExctnDt "YYYYMMDD") "<" (dateFormat "" "YYYYMMDD")}}
             <ReqdExctnDt>
                 <Dt>{{dateFormat ReqdExctnDt "YYYY-MM-DD"  }}</Dt>
@@ -172,12 +178,6 @@
                     <EndToEndId>{{PayRef}}</EndToEndId>
                     {{/ifCompare}} 
                 </PmtId>
-                <PmtTpInf>
-                    <InstrPrty>NORM</InstrPrty>
-                    <SvcLvl>
-                        <Cd>SEPA</Cd>
-                    </SvcLvl>
-                </PmtTpInf>
                 <Amt>
                     <InstdAmt Ccy="{{BillCurrency}}">{{BillAmount}}</InstdAmt>
                 </Amt>
@@ -219,6 +219,12 @@
             <BtchBookg>false</BtchBookg>
             <NbOfTxs>1</NbOfTxs>
             <CtrlSum>{{BillAmount}}</CtrlSum>
+            <PmtTpInf>
+                <InstrPrty>NORM</InstrPrty>
+                <SvcLvl>
+                    <Cd>NURG</Cd>
+                </SvcLvl>
+            </PmtTpInf>
             {{#ifCompare (dateFormat ReqdExctnDt "YYYYMMDD") "<" (dateFormat "" "YYYYMMDD")}}
             <ReqdExctnDt>
                 <Dt>{{dateFormat ReqdExctnDt "YYYY-MM-DD"  }}</Dt>
@@ -263,12 +269,6 @@
                     <EndToEndId>{{PayRef}}</EndToEndId>
                     {{/ifCompare}} 
                 </PmtId>
-                <PmtTpInf>
-                    <InstrPrty>NORM</InstrPrty>
-                    <SvcLvl>
-                        <Cd>URGP</Cd>
-                    </SvcLvl>
-                </PmtTpInf>
                 <Amt>
                     <InstdAmt Ccy="{{BillCurrency}}">{{BillAmount}}</InstdAmt>
                 </Amt>
@@ -309,6 +309,12 @@
             <BtchBookg>false</BtchBookg>
             <NbOfTxs>1</NbOfTxs>
             <CtrlSum>{{BillAmount}}</CtrlSum>
+            <PmtTpInf>
+                <InstrPrty>NORM</InstrPrty>
+                <SvcLvl>
+                    <Cd>NURG</Cd>
+                </SvcLvl>
+            </PmtTpInf>
             {{#ifCompare (dateFormat ReqdExctnDt "YYYYMMDD") "<" (dateFormat "" "YYYYMMDD")}}
             <ReqdExctnDt>
                 <Dt>{{dateFormat ReqdExctnDt "YYYY-MM-DD"  }}</Dt>
@@ -353,12 +359,6 @@
                     <EndToEndId>{{PayRef}}</EndToEndId>
                     {{/ifCompare}} 
                 </PmtId>
-                <PmtTpInf>
-                    <InstrPrty>NORM</InstrPrty>
-                    <SvcLvl>
-                        <Cd>URGP</Cd>
-                    </SvcLvl>
-                </PmtTpInf>
                 <Amt>
                     <InstdAmt Ccy="{{BillCurrency}}">{{BillAmount}}</InstdAmt>
                 </Amt>

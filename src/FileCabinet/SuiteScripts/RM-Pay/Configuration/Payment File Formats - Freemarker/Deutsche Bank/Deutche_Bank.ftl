@@ -338,12 +338,14 @@
 			<CdtrAgt>
 				<FinInstnId>
                     <BIC>{{CdtrBIC}}</BIC>
-				    <ClrSysMmbId>
-				        <ClrSysId>
-				            <Cd>{{CdtrClearing}}</Cd>
-				        </ClrSysId>
-				        <MmbId>{{CdtrBankCode}}</MmbId>
-				    </ClrSysMmbId>
+                        <ClrSysMmbId>
+                            {{#ifCompare CdtrClearing "!=" ""}}
+                            <ClrSysId>
+                                <Cd>{{CdtrClearing}}</Cd>
+                            </ClrSysId>
+                            {{/ifCompare}}
+                            <MmbId>{{CdtrBankCode}}</MmbId>
+                        </ClrSysMmbId>
 				</FinInstnId>
 			</CdtrAgt>
             {{/ifCompare}}
